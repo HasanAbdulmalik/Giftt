@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Birthday Gift</title>
+
+<meta name="robots" content="noindex, nofollow, noimageindex, noarchive, nosnippet">
+<meta property="og:title" content=" ">
+<meta property="og:description" content=" ">
+<meta property="og:image" content=" ">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content=" " />
+<meta name="twitter:description" content=" " />
+<meta name="twitter:image" content=" " />
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Great Vibes', cursive;
+    /* Seamless diagonal moving gradient */
+    background: linear-gradient(135deg, #ff7fa5, #ffbdd2, #ff7fa5, #ffbdd2);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: #4a0033;
+    position: relative;
+    font-size: 15px;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+  }
+
+  .floating-heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .heart {
+    position: absolute;
+    color: rgba(255, 105, 180, 0.6);
+    font-size: 2rem;
+    user-select: none;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes floatHearts {
+    0% {
+      transform: translateY(100vh) scale(0.5);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 30px;
+    background: #f7d1cd; /* Nude pink */
+    border: 6px dashed hotpink;
+    border-radius: 25px;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+    max-width: 700px;
+    width: 90%;
+    z-index: 1;
+    transition: transform 0.4s ease;
+  }
+
+  .center:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .next-btn {
+    margin-top: 30px;
+    font-size: 1.8em;
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  h1 {
+    animation: textFloat 4s ease-in-out infinite alternate;
+    font-size: 3.5rem;
+  }
+
+  h2 {
+    animation: textFloat 4s ease-in-out infinite alternate;
+    font-size: 2.8rem;
+  }
+
+  p {
+    animation: textFloat 4s ease-in-out infinite alternate;
+    font-size: 1.6rem;
+  }
+
+  @keyframes textFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-5px); }
+  }
+
+  .tilt {
+    display: inline-block;
+    cursor: pointer;
+    animation: emojiBounce 1.5s infinite;
+    transition: transform 1s ease;
+  }
+
+  @keyframes emojiBounce {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* --- ADDED: sparkle animation for secret input --- */
+  @keyframes sparkle {
+    0%, 100% { box-shadow: 0 0 5px 2px #ff69b4; }
+    50% { box-shadow: 0 0 15px 5px #ff1493; }
+  }
+
+  #secretInput {
+    padding: 10px;
+    font-size: 1.2em;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 2px solid #ff69b4;
+    animation: sparkle 2.5s ease-in-out infinite;
+  }
+
+  #unlockBtn {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: hotpink;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  #secretMessage {
+    font-size: 1.5em;
+    color: #d60073;
+    margin-top: 20px;
+    display: none;
+    animation: fadeIn 2s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Countdown overlay */
+  #countdownOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffbdd2;
+    background: linear-gradient(135deg, #ff7fa5, #ffbdd2);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: #4a0033;
+    font-family: 'Great Vibes', cursive;
+  }
+
+  #countdownOverlay h1 {
+    font-size: 4rem;
+    margin-bottom: 0.2em;
+  }
+
+  #countdownTimer {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 6px #d60073;
+  }
+
+  /* Page6 styling */
+  #page6 {
+    animation: fadeIn 4s ease forwards;
+  }
+
+  /* --- ADDED: closing page styling --- */
+  #page7 {
+    animation: fadeIn 3s ease forwards;
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- Countdown overlay -->
+  <div id="countdownOverlay">
+    <h1>🎉 Countdown to Your Birthday Surprise! 🎉</h1>
+    <div id="countdownTimer">Loading...</div>
+  </div>
+
+  <!-- Floating hearts container -->
+  <div class="floating-heart-container" id="hearts"></div>
+
+  <div class="center" id="pageContainer" style="display:none;">
+    <div id="page1">
+      <h1>🎉 Here is my first gift to you, my love! 💖</h1>
+      <p>🎂🎈💝💫</p>
+    </div>
+
+    <div id="page2" class="hidden">
+      <h2>💌 My Dearest, 💖</h2>
+      <p>On this beautiful day, I just want to say how grateful I am for your existence. 💕<br>
+        Your smile melts all my worries, your voice is the calm in my chaos, and your love is the warmth that lights up my heart. 🌈<br>
+        I still can’t believe I get to call you mine. You’re my sunshine, my moonlight, my everything. 🌞🌙<br>
+        Today is not just your birthday—it's the celebration of the day my world became brighter.<br>
+        I love you more than words can ever express. ❤️💖💕
+      </p>
+    </div>
+
+    <div id="page3" class="hidden">
+      <h2>🎂 Here's your cake! Tap it!</h2>
+      <p class="tilt" id="cakeEmoji" style="font-size: 4em;">🎂</p>
+      <p id="cakeMessage" style="display:none; font-size: 1.8em; color: #e60073;">🎊 Happy Birthday, My Beautiful Girl!!! 💖💖💖</p>
+    </div>
+
+    <div id="page4" class="hidden">
+      <h2>🎁 Tap to open your gift!</h2>
+      <p class="tilt" id="giftEmoji" style="font-size: 4em;">🎁</p>
+      <p id="giftMessage" style="display:none; font-size: 1.8em; color: #ff0066;">💌 I Love You So Much Princess 💘💘💘</p>
+    </div>
+
+    <div id="page5" class="hidden">
+      <h2>🔐 One last surprise!</h2>
+      <p>What’s the nickname I always love to call you?</p>
+      <input type="text" id="secretInput" placeholder="Enter nickname" />
+      <br />
+      <button id="unlockBtn" onclick="checkNickname()">Unlock 💝</button>
+      <p id="secretMessage">💖 Sweetheart, you are my everything. Thank you for loving me, for trusting me, and for being you. Happy Birthday, my forever. 💝</p>
+    </div>
+
+    <div id="page6" class="hidden">
+      <h2>🌹 My love for you grows deeper every day. You are my heart’s eternal song. 🌹</h2>
+    </div>
+
+    <!-- --- ADDED: Closing page 7 --- -->
+    <div id="page7" class="hidden">
+      <h2>❤️ I hope you know how special you are. Thank you for everything, my love. Take care of yourself and many many happy returns of the day ❤️</h2>
+    </div>
+
+    <button class="next-btn" id="nextBtn" onclick="nextPage()">Next ➤</button>
+  </div>
+
+<script>
+  // Set birthday date/time (local timezone)
+  const birthdayDate = new Date("May 17, 2025 00:00:00");
+
+  const countdownOverlay = document.getElementById("countdownOverlay");
+  const countdownTimer = document.getElementById("countdownTimer");
+  const pageContainer = document.getElementById("pageContainer");
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = birthdayDate - now;
+
+    if (diff <= 0) {
+      // Time reached — hide countdown, show main content
+      countdownOverlay.style.display = "none";
+      pageContainer.style.display = "block";
+      clearInterval(countdownInterval);
+    } else {
+      // Calculate time parts
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      // Format with leading zeros
+      const format = n => n.toString().padStart(2, '0');
+
+      countdownTimer.textContent = `${format(days)}d : ${format(hours)}h : ${format(minutes)}m : ${format(seconds)}s`;
+    }
+  }
+
+  // Run every 1 second
+  const countdownInterval = setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Page navigation logic
+  const pages = ["page1", "page2", "page3", "page4", "page5", "page6", "page7"];
+  let currentPageIndex = 0;
+
+  const nextBtn = document.getElementById("nextBtn");
+
+  function showPage(index) {
+    pages.forEach((id, i) => {
+      document.getElementById(id).classList.toggle("hidden", i !== index);
+    });
+    currentPageIndex = index;
+
+    // Hide next button on page5, page6 and page7 (end page)
+    if (pages[index] === "page5" || pages[index] === "page6" || pages[index] === "page7") {
+      nextBtn.style.display = "none";
+    } else {
+      nextBtn.style.display = "inline-block";
+    }
+  }
+
+  function nextPage() {
+    if (currentPageIndex < pages.length - 2) {
+      showPage(currentPageIndex + 1);
+    }
+  }
+
+  showPage(0);
+
+  // Cake and gift interaction WITHOUT hover scaling - disappear immediately and show message
+  const cakeEmoji = document.getElementById("cakeEmoji");
+  const cakeMessage = document.getElementById("cakeMessage");
+  cakeEmoji.addEventListener("click", () => {
+    cakeEmoji.style.display = "none";
+    cakeMessage.style.display = "block";
+  });
+
+  const giftEmoji = document.getElementById("giftEmoji");
+  const giftMessage = document.getElementById("giftMessage");
+  giftEmoji.addEventListener("click", () => {
+    giftEmoji.style.display = "none";
+    giftMessage.style.display = "block";
+  });
+
+  // Secret nickname unlock logic
+  const secretInput = document.getElementById("secretInput");
+  const secretMessage = document.getElementById("secretMessage");
+
+  function checkNickname() {
+    const val = secretInput.value.trim().toLowerCase();
+    if (val === "mahiii" || val === "mahii") {
+      secretMessage.style.display = "block";
+
+      // After 4 seconds show page6
+      setTimeout(() => {
+        showPage(5); // page6 index is 5
+
+        // After 4s show closing page 7
+        setTimeout(() => {
+          showPage(6);
+        }, 4000);
+      }, 4000);
+
+    } else {
+      alert("Try again! Hint: It's my favorite nickname for you 💖");
+    }
+  }
+
+  // Hearts animation
+  const heartsContainer = document.getElementById("hearts");
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "💖";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 2 + 1) + "rem";
+    heart.style.animationDuration = (Math.random() * 8 + 6) + "s";
+
+    heartsContainer.appendChild(heart);
+
+    heart.style.animationName = "floatHearts";
+
+    // Remove after animation ends
+    heart.addEventListener("animationend", () => {
+      heart.remove();
+    });
+  }
+
+  setInterval(createHeart, 500);
+
+</script>
+
+</body>
+</html>
